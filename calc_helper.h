@@ -1,7 +1,7 @@
 #ifndef CALC_HELPER
 #define CALC_HELPER
 
-#include "pila.h"
+// #include "pila.h"
 
 #include <stdbool.h>
 
@@ -167,17 +167,17 @@ bool calc_parse(const char *tok_str, struct calc_token *parsed_token);
  * pues solo hace uso de sus primitivas públicas.
  */
 
-typedef pila_t pilanum_t;
-
-pilanum_t *pilanum_crear(void);
-void pilanum_destruir(pilanum_t *pila);
+// typedef pila_t pilanum_t;
+//
+// pilanum_t *pilanum_crear(void);
+// void pilanum_destruir(pilanum_t *pila);
 
 
 /*
  * Primitiva de pilanum_t para apilar un número (usa internamente memoria dinámica,
  * liberada por supuesto en pilanum_destruir).
  */
-void apilar_num(pilanum_t *pila, calc_num num);
+// void apilar_num(pilanum_t *pila, calc_num num);
 
 
 /*
@@ -187,6 +187,6 @@ void apilar_num(pilanum_t *pila, calc_num num);
  * el valor de retorno indica si se pudo desapilar (no estaba vacía la pila).
  */
 
-bool desapilar_num(pilanum_t *pila, calc_num *num);
+// bool desapilar_num(pilanum_t *pila, calc_num *num);
 
 #endif
