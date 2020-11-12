@@ -64,9 +64,6 @@ char ** split_(const char *str, char sep) {
     palabras[contador_palabras] = palabra;
     contador_palabras++;
     palabras[contador_palabras] = NULL;
-
-
-
     // char *palabra = malloc(sizeof(char)*(pos+1));
     // memcpy(palabra, str, pos);
     // palabra[pos] = '\0';
@@ -79,16 +76,68 @@ char ** split_(const char *str, char sep) {
     // printf("tam char=%d\n", sizeof(char));
     return palabras;
 }
+// char *join(char **strv, char sep);
+char *join_(char **strv, char sep) {
+  int i = 0;
+  int cantidad_letras = 0;
+  while (strv[i]!=NULL) {
+     printf("palabras[%d] = %s\n", i, strv[i]);
+     cantidad_letras+=strlen(strv[i])+1;
+     i++;
+  }
+  printf("cantidad de letras = %d\n", cantidad_letras );
+  char *palabra = malloc(sizeof(char)*(cantidad_letras));
+  i=0;
+  int desplazamiento = 0;
+  while (strv[i]!=NULL) {
+     // printf("palabras[%d] = %s\n", i,strv[i]);
+     if ( strlen(strv[i]) == 0) {
+       printf("antes del continue\n");
+       i++;
+       continue;
+     }
+
+     if ( desplazamiento == 0 ){
+       printf("strlen(strv[%d])=%d, \n",i, strlen(strv[i]));
+       memcpy(palabra+desplazamiento, strv[i], strlen(strv[i]));
+       desplazamiento += strlen(strv[i]);
+     }else {
+       desplazamiento++;
+       printf("strlen(strv[%d])=%d, \n",i, strlen(strv[i]));
+       memcpy(palabra+desplazamiento, strv[i], strlen(strv[i]));
+       desplazamiento += strlen(strv[i]);
+     }
+     // desplazamiento++;
+     // memcpy(palabra+desplazamiento+1, &sep, 1);
+     printf("desplazamiento=%d\n", desplazamiento);
+     printf("sep=%c\n", sep);
+     // palabra = sep;
+     // strcpy(palabra[desplazamiento],'#');
+     palabra[desplazamiento] = sep;
+     // printf("strlen(strv[i])=%d, \n", strlen(strv[i]));
+     // printf("palabra[1]=%p, \n", palabra[1]);
+     // printf("palabra=%p, palabra[desplazamiento]=%p\n", palabra,&palabra[desplazamiento]);
+     // printf("palabra[desplazamiento]=%c\n", palabra[desplazamiento-1]);
+     // printf("palabra[desplazamiento]=%c\n", palabra[desplazamiento]);
+     // cantidad_letras+=strlen(strv[i])+1;
+     i++;
+  }
+  palabra[desplazamiento] = '\0';
+  return palabra;
+
+  // pedir memoria
+}
 int main(int argc, char* argv[]) {
     printf("compila\n");
-    // char ** palabras = split_("pirulo, pirulas, chingolo, monchito", ',');
+    char ** palabras = split_("pirulo, pirulas, chingolo, monchito", ',');
+    // char ** palabras = split_("abc,def,ghi,jk", ',');
     // Casos borde propuestos
     // char ** palabras = split_("abc,,def", ',');
     // char ** palabras = split_("abc,def,", ',');
     // char ** palabras = split_(",abc,def", ',');
     // char ** palabras = split_("abc", '\0');
     // char ** palabras = split_("", ',');
-    char ** palabras = split_(",", ',');
+    // char ** palabras = split_(",", ',');
 
 
     // split_("", ',');
@@ -98,11 +147,14 @@ int main(int argc, char* argv[]) {
     // printf("palabra_original=%s, palabra_copiada=%s\n", palabra_original, palabra_copiada);
     // free(palabra_copiada);
     int i = 0;
-    while (palabras[i]!=NULL) {
-       printf("palabras[%d] = %s\n", i,palabras[i]);
-       i++;
-    }
-    i = 0;
+    // while (palabras[i]!=NULL) {
+    //    printf("palabras[%d] = %s\n", i,palabras[i]);
+    //    i++;
+    // }
+    // i = 0;
+    char *p = join_(palabras, ',');
+    // p[0]='X';
+    printf("la palabra es =%s\n",p );
     while (palabras[i]!=NULL) {
        // printf("palabras[i] = %s\n", palabras[i]);
         free(palabras[i]);
@@ -110,6 +162,7 @@ int main(int argc, char* argv[]) {
     }
     // borrar la ultima?
     // free(palabras[i]);
+    free(p);
     free(palabras);
     return 0;
 }
