@@ -135,46 +135,46 @@ void free_strv(char *strv[]) {
     }
     free(strv);
 }
-int main(int argc, char* argv[]) {
-    printf("compila\n");
-    char ** palabras = split_("pirulo, pirulas, chingolo, monchito", ',');
-    // char ** palabras = split_("abc,def,ghi,jk", ',');
-    // Casos borde propuestos
-    // char ** palabras = split_("abc,,def", ',');
-    // char ** palabras = split_("abc,def,", ',');
-    // char ** palabras = split_(",abc,def", ',');
-    // char ** palabras = split_("abc", '\0');
-    // char ** palabras = split_("", ',');
-    // char ** palabras = split_(",", ',');
-
-
-    // split_("", ',');
-    // char * palabra_original = "potirolis";
-    // char * palabra_copiada = strdup(palabra_original);
-    // printf("palabra original= %p, palabra_copiada=%p\n", palabra_original, palabra_copiada);
-    // printf("palabra_original=%s, palabra_copiada=%s\n", palabra_original, palabra_copiada);
-    // free(palabra_copiada);
-    int i = 0;
-    // while (palabras[i]!=NULL) {
-    //    printf("palabras[%d] = %s\n", i,palabras[i]);
-    //    i++;
-    // }
-    // i = 0;
-    char *p = join_(palabras, ',');
-    // p[0]='X';
-    printf("la palabra es =%s\n",p );
-    // while (palabras[i]!=NULL) {
-    //    // printf("palabras[i] = %s\n", palabras[i]);
-    //     free(palabras[i]);
-    //    i++;
-    // }
-    // borrar la ultima?
-    // free(palabras[i]);
-    free(p);
-    // free(palabras);
-    free_strv(palabras);
-    return 0;
-}
+// int main(int argc, char* argv[]) {
+//     printf("compila\n");
+//     char ** palabras = split_("pirulo, pirulas, chingolo, monchito", ',');
+//     // char ** palabras = split_("abc,def,ghi,jk", ',');
+//     // Casos borde propuestos
+//     // char ** palabras = split_("abc,,def", ',');
+//     // char ** palabras = split_("abc,def,", ',');
+//     // char ** palabras = split_(",abc,def", ',');
+//     // char ** palabras = split_("abc", '\0');
+//     // char ** palabras = split_("", ',');
+//     // char ** palabras = split_(",", ',');
+//
+//
+//     // split_("", ',');
+//     // char * palabra_original = "potirolis";
+//     // char * palabra_copiada = strdup(palabra_original);
+//     // printf("palabra original= %p, palabra_copiada=%p\n", palabra_original, palabra_copiada);
+//     // printf("palabra_original=%s, palabra_copiada=%s\n", palabra_original, palabra_copiada);
+//     // free(palabra_copiada);
+//     int i = 0;
+//     // while (palabras[i]!=NULL) {
+//     //    printf("palabras[%d] = %s\n", i,palabras[i]);
+//     //    i++;
+//     // }
+//     // i = 0;
+//     char *p = join_(palabras, ',');
+//     // p[0]='X';
+//     printf("la palabra es =%s\n",p );
+//     // while (palabras[i]!=NULL) {
+//     //    // printf("palabras[i] = %s\n", palabras[i]);
+//     //     free(palabras[i]);
+//     //    i++;
+//     // }
+//     // borrar la ultima?
+//     // free(palabras[i]);
+//     free(p);
+//     // free(palabras);
+//     free_strv(palabras);
+//     return 0;
+// }
 // int main(int argc, char *argv[]) {
 //
 //   printf("compila!!!\n");

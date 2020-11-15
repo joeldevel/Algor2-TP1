@@ -188,5 +188,5 @@ bool calc_parse(const char *tok_str, struct calc_token *parsed_token);
  */
 
 // bool desapilar_num(pilanum_t *pila, calc_num *num);
-
+static bool parse_num(const char *tok, calc_num *dest);
 #endif

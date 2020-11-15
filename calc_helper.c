@@ -127,20 +127,20 @@ bool calc_parse(const char *tok, struct calc_token *parsed) {
 // tenía tokens, se devuelve un arreglo de longitud cero: {NULL}.
 //
 
-// char **dc_split(const char *linea) {
-//     const char *delim = " \n";
-//     char *parse = strdup(linea);  // No modificar línea, que es const.
-//     char *ptr, *tok = strtok_r(parse, delim, &ptr);
-//     char **strv = calloc(strlen(linea) + 1, sizeof(char *));  // (¹)
-//
-//     // Separa por espacios (o múltiples espacios), e ignorando saltos de línea.
-//     for (size_t i = 0; tok != NULL; tok = strtok_r(NULL, delim, &ptr), i++) {
-//         strv[i] = strdup(tok);
-//     }
-//
-//     free(parse);
-//     return strv;
-// }
+char **dc_split(const char *linea) {
+    const char *delim = " \n";
+    char *parse = strdup(linea);  // No modificar línea, que es const.
+    char *ptr, *tok = strtok_r(parse, delim, &ptr);
+    char **strv = calloc(strlen(linea) + 1, sizeof(char *));  // (¹)
+
+    // Separa por espacios (o múltiples espacios), e ignorando saltos de línea.
+    for (size_t i = 0; tok != NULL; tok = strtok_r(NULL, delim, &ptr), i++) {
+        strv[i] = strdup(tok);
+    }
+
+    free(parse);
+    return strv;
+}
 
 
 // char **infix_split(const char *linea) {
