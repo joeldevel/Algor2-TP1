@@ -26,57 +26,57 @@
 // Returns:
 //    verdadero si la palabra formaba un token válido, falso en caso contrario
 //
-// bool calc_parse(const char *tok, struct calc_token *parsed) {
-//     if (parse_num(tok, &parsed->value)) {
-//         parsed->type = TOK_NUM;
-//         return true;
-//     }
-//     else {
-//         parsed->type = TOK_OPER;
-//     }
-//
-//     if (strlen(tok) == 1) {
-//         char op = tok[0];
-//         if (op == '+') {
-//             parsed->oper.op = OP_ADD;
-//         }
-//         else if (op == '-') {
-//             parsed->oper.op = OP_SUB;
-//         }
-//         else if (op == '*') {
-//             parsed->oper.op = OP_MUL;
-//         }
-//         else if (op == '/') {
-//             parsed->oper.op = OP_DIV;
-//         }
-//         else if (op == '^') {
-//             parsed->oper.op = OP_POW;
-//         }
-//         else if (op == '?') {
-//             parsed->oper.op = OP_TERN;
-//         }
-//         else if (op == '(') {
-//             parsed->type = TOK_LPAREN;
-//         }
-//         else if (op == ')') {
-//             parsed->type = TOK_RPAREN;
-//         }
-//         else {
-//             return false;
-//         }
-//     }
-//     else if (strcmp(tok, "log") == 0) {
-//         parsed->oper.op = OP_LOG;
-//     }
-//     else if (strcmp(tok, "sqrt") == 0) {
-//         parsed->oper.op = OP_RAIZ;
-//     }
-//     else {
-//         return false;
-//     }
-//
-//     return true;
-// }
+bool calc_parse(const char *tok, struct calc_token *parsed) {
+    if (parse_num(tok, &parsed->value)) {
+        parsed->type = TOK_NUM;
+        return true;
+    }
+    else {
+        parsed->type = TOK_OPER;
+    }
+
+    if (strlen(tok) == 1) {
+        char op = tok[0];
+        if (op == '+') {
+            parsed->oper.op = OP_ADD;
+        }
+        else if (op == '-') {
+            parsed->oper.op = OP_SUB;
+        }
+        else if (op == '*') {
+            parsed->oper.op = OP_MUL;
+        }
+        else if (op == '/') {
+            parsed->oper.op = OP_DIV;
+        }
+        else if (op == '^') {
+            parsed->oper.op = OP_POW;
+        }
+        else if (op == '?') {
+            parsed->oper.op = OP_TERN;
+        }
+        else if (op == '(') {
+            parsed->type = TOK_LPAREN;
+        }
+        else if (op == ')') {
+            parsed->type = TOK_RPAREN;
+        }
+        else {
+            return false;
+        }
+    }
+    else if (strcmp(tok, "log") == 0) {
+        parsed->oper.op = OP_LOG;
+    }
+    else if (strcmp(tok, "sqrt") == 0) {
+        parsed->oper.op = OP_RAIZ;
+    }
+    else {
+        return false;
+    }
+
+    return true;
+}
 
 
 //
@@ -210,8 +210,8 @@
 // // Returns:
 // //    verdadero si la cadena era en su totalidad un entero válido.
 // //
-// static bool parse_num(const char *tok, calc_num *dest) {
-//     char *end;
-//     *dest = strtol(tok, &end, 10);
-//     return *end == '\0';
-// }
+static bool parse_num(const char *tok, calc_num *dest) {
+    char *end;
+    *dest = strtol(tok, &end, 10);
+    return *end == '\0';
+}

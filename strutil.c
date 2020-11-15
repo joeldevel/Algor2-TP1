@@ -127,6 +127,14 @@ char *join_(char **strv, char sep) {
 
   // pedir memoria
 }
+void free_strv(char *strv[]) {
+    int i = 0;
+    while (strv[i]!=NULL) {
+        free(strv[i]);
+        i++;
+    }
+    free(strv);
+}
 int main(int argc, char* argv[]) {
     printf("compila\n");
     char ** palabras = split_("pirulo, pirulas, chingolo, monchito", ',');
@@ -155,15 +163,16 @@ int main(int argc, char* argv[]) {
     char *p = join_(palabras, ',');
     // p[0]='X';
     printf("la palabra es =%s\n",p );
-    while (palabras[i]!=NULL) {
-       // printf("palabras[i] = %s\n", palabras[i]);
-        free(palabras[i]);
-       i++;
-    }
+    // while (palabras[i]!=NULL) {
+    //    // printf("palabras[i] = %s\n", palabras[i]);
+    //     free(palabras[i]);
+    //    i++;
+    // }
     // borrar la ultima?
     // free(palabras[i]);
     free(p);
-    free(palabras);
+    // free(palabras);
+    free_strv(palabras);
     return 0;
 }
 // int main(int argc, char *argv[]) {
