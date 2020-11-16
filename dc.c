@@ -1,6 +1,7 @@
-#include <stdio.h>
 #include "strutil.h"
 #include "calc_helper.h"
+#include <stdio.h>
+#include <math.h>
 
 
 void analizar_tokens(char*tokens[]) {
@@ -52,6 +53,8 @@ void procesar_linea(char*tokens[]) {
                printf("Poner en la pila %d\n",token_devuelto.value );
                // printf("sumandole 1 %d\n",token_devuelto.value+1 );
                if(pila_esta_vacia(pila)) printf("La pila esta vacia\n");
+               if (token_devuelto.value <0)
+                  printf("el numero es negativo\n");
                apilar_num(pila, token_devuelto.value);
                // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
            break;
@@ -117,10 +120,74 @@ void procesar_linea(char*tokens[]) {
                        break;
                       // printf("Division por cero /\n");
                       // break;
-                   case OP_POW: printf("Potencia negativa^\n"); break;
-                   case OP_LOG: printf(" log < 2log\n"); break;
-                   case OP_RAIZ: printf("raiz de num negativosqrt\n"); break;
-                   case OP_TERN: printf("recibe tres operandos?\n"); break;
+                   case OP_POW:
+                       printf("potencia\n");
+                       b = 0;
+                       if(desapilar_num(pila, &b)){
+                         printf("Desapilando\n");
+                       } else {printf("no se desapila!!!\n");}
+
+                       a = 0;
+                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (b<0) {
+                          printf("ERROR potencia negativa!!!\n");
+                          break;
+                        }
+                       apilar_num(pila, (long int)pow(a,b));
+                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       break;
+                   case OP_LOG:
+                       printf("Longarismo\n");
+                       // base
+                       b = 0;
+                       if(desapilar_num(pila, &b)){
+                         printf("Desapilando\n");
+                       } else {printf("no se desapila!!!\n");}
+                       // numero a aplicar
+                       a = 0;
+                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (b<2) {
+                          printf("ERROR base menor a 2 !!!\n");
+                          break;
+                        }
+                       apilar_num(pila, (long int)(log(a)/log(b)));
+                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       break;
+
+                   case OP_RAIZ:
+                       printf("raiz cuadrada\n");
+                       // necesito 1 solo operando
+                       a = 0;
+                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (a<0) {
+                          printf("ERROR raiz negativa!!!\n");
+                          break;
+                        }
+                       apilar_num(pila, (long int)sqrt(a));
+                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       break;
+                   case OP_TERN:
+                   printf("op ternario\n");
+                      // op3
+                      a = 0;
+                      if(desapilar_num(pila, &a)){
+                        printf("Desapilando\n");
+                      } else {printf("no se desapila!!!\n");}
+                      // op2
+                      b = 0;
+                      if (desapilar_num(pila, &b)) printf("Desapilando\n");
+
+                      calc_num c = 0;
+                      if (!desapilar_num(pila, &c)) {
+                         printf("ERROR falta un operando !!!\n");
+                         break;
+                       }
+                      printf("a=%lu, b=%ld, c=%lu\n",a,b,c );
+                      apilar_num(pila, (long int)(c?b:a));
+                      printf("ver tope pila =%ld\n", *(size_t*)pila_ver_tope(pila));
+                      break;
+
+                    // printf("recibe tres operandos?\n"); break;
                } break;
            case TOK_LPAREN: printf("es parentesis izquierdo (\n" );break;
            case TOK_RPAREN: printf("es parentesis derecho )\n" );break;
