@@ -83,40 +83,42 @@ bool calc_parse(const char *tok, struct calc_token *parsed) {
 // Primitivas de pilaint_t.
 //
 
-// pilanum_t *pilanum_crear(void) {
-//     return pila_crear();
-// }
+pilanum_t *pilanum_crear(void) {
+    return pila_crear();
+}
 //
-// void apilar_num(pilanum_t *pila, calc_num num) {
-//     calc_num *dyn;
+void apilar_num(pilanum_t *pila, calc_num num) {
+    calc_num *dyn;
     // Por comodidad, queremos que apilar_num() sea void. Añadimos
     // sendos asserts para que, si ocurriese que malloc() falla, fuera
     // obvio qué está pasando.
-//     assert((dyn = malloc(sizeof(calc_num))));
-//     *dyn = num;
-//     assert(pila_apilar(pila, dyn));
-// }
+    assert((dyn = malloc(sizeof(calc_num))));
+    *dyn = num;
+    assert(pila_apilar(pila, dyn));
+}
 
 
-// bool desapilar_num(pilanum_t *pila, calc_num *num) {
-//     if (pila_esta_vacia(pila))
-//         return false;
-//
-//     calc_num *dyn = pila_desapilar(pila);
-//     *num = *dyn;
-//     free(dyn);
-//     return true;
-// }
+bool desapilar_num(pilanum_t *pila, calc_num *num) {
+    if (pila_esta_vacia(pila)){
+      // printf("La pila est avacia\n" );
+      return false;
+    }
+
+    calc_num *dyn = pila_desapilar(pila);
+    *num = *dyn;
+    free(dyn);
+    return true;
+}
 
 //
-// void pilanum_destruir(pilanum_t *pila) {
-//     while (!pila_esta_vacia(pila)) {
-//         void *elem = pila_desapilar(pila);
-//         free(elem);
-//     }
-//
-//     pila_destruir(pila);
-// }
+void pilanum_destruir(pilanum_t *pila) {
+    while (!pila_esta_vacia(pila)) {
+        void *elem = pila_desapilar(pila);
+        free(elem);
+    }
+
+    pila_destruir(pila);
+}
 
 
 //

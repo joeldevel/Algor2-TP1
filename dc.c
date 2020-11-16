@@ -37,8 +37,105 @@ void analizar_tokens(char*tokens[]) {
      i++;
   }
 }
+// recibe un array de string con cada operando de la operacion
+void procesar_linea(char*tokens[]) {
+  printf("entrando a procesar_linea\n" );
+  int i = 0;
+  pilanum_t *pila = pilanum_crear();
+  while (tokens[i]!=NULL) {
+     struct calc_token token_devuelto;
+     char *tok = tokens[i];
+     if (calc_parse(tok, &token_devuelto)){
+       // printf("se ha parseado con exito!\n");
+       switch (token_devuelto.type) {
+           case TOK_NUM:
+               printf("Poner en la pila %d\n",token_devuelto.value );
+               // printf("sumandole 1 %d\n",token_devuelto.value+1 );
+               if(pila_esta_vacia(pila)) printf("La pila esta vacia\n");
+               apilar_num(pila, token_devuelto.value);
+               // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+           break;
+           case TOK_OPER:
+               printf("es un operador " );
+               // printf("token_devuelto.oper=%d\n",token_devuelto.oper );
+               switch (token_devuelto.value) {
+                   case OP_ADD:
+                      printf("Sumando +\n");
+                      calc_num b = 0;
+                      if(desapilar_num(pila, &b)){
+                        printf("Desapilando\n");
+                      } else {printf("no se desapila!!!\n");}
+
+                      calc_num a = 0;
+                      if(desapilar_num(pila, &a)) printf("Desapilando\n");
+                      // printf("b=%p\n",b );
+                      // printf("b=%lu\n", b);
+                      apilar_num(pila, (long int)a+(long int)b);
+                      // printf("Se apila =%d\n", (long int)a+(long int)b);
+                      printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+
+                      break;
+                   case OP_SUB:
+                       printf("restando -\n");
+                       b = 0;
+                       if(desapilar_num(pila, &b)){
+                         printf("Desapilando\n");
+                       } else {printf("no se desapila!!!\n");}
+
+                       a = 0;
+                       if(desapilar_num(pila, &a)) printf("Desapilando\n");
+                       apilar_num(pila, (long int)a-(long int)b);
+                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       break;
+                   case OP_MUL:
+                       printf("Multiplicando\n");
+                       b = 0;
+                       if(desapilar_num(pila, &b)){
+                         printf("Desapilando\n");
+                       } else {printf("no se desapila!!!\n");}
+
+                       a = 0;
+                       if(desapilar_num(pila, &a)) printf("Desapilando\n");
+                       apilar_num(pila, (long int)a*(long int)b);
+                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       break;
+                   case OP_DIV:
+                       printf("dividiendo\n");
+                       b = 0;
+                       if(desapilar_num(pila, &b)){
+                         printf("Desapilando\n");
+                       } else {printf("no se desapila!!!\n");}
+
+                       a = 0;
+                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (b==0) {
+                          printf("ERROR división por cero!!!\n");
+                          break;
+                        }
+                       apilar_num(pila, (long int)a/(long int)b);
+                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       break;
+                      // printf("Division por cero /\n");
+                      // break;
+                   case OP_POW: printf("Potencia negativa^\n"); break;
+                   case OP_LOG: printf(" log < 2log\n"); break;
+                   case OP_RAIZ: printf("raiz de num negativosqrt\n"); break;
+                   case OP_TERN: printf("recibe tres operandos?\n"); break;
+               } break;
+           case TOK_LPAREN: printf("es parentesis izquierdo (\n" );break;
+           case TOK_RPAREN: printf("es parentesis derecho )\n" );break;
+           default: printf("ERROR, no es un token valido\n");
+       }
+     }
+     i++;
+  }
+  pilanum_destruir(pila);
+}
 int main(int argc, char *argv[]) {
   printf("dc compila!\n");
+  // pilanum_t *pila = pilanum_crear();
+  // apilar_num(pila,3456);
+  // pilanum_destruir(pila);
   // for( int i = 0; i < argc; i++) {
   //   printf("argv[%i]= %s\n",i,argv[i] );
   // }
@@ -46,7 +143,23 @@ int main(int argc, char *argv[]) {
   int ch = 0;
   char *file_name = "ej.txt";
   FILE* fh=fopen("ej.txt", "r");
-  int operandos[2] = {0,0};
+  if (!fh) {
+    printf("ERROR al abrir el archivo\n"); return 1;
+  }
+  else {
+    char line[256];
+    char **palabras = NULL;
+    while (fgets(line, sizeof(line), stdin)) {
+        /* note that fgets don't strip the terminating \n, checking its
+           presence would allow to handle lines longer that sizeof(line) */
+        // printf("%s", line);
+        palabras = dc_split(line);
+        // analizar_tokens(palabras);
+        procesar_linea(palabras);
+        free_strv(palabras);
+    }
+  }
+  // int operandos[2] = {0,0};
   // int i = 0;
   // mientras no fin de archivo
   // while ((ch = fgetc(fh)) != EOF) {
@@ -77,9 +190,9 @@ int main(int argc, char *argv[]) {
   // printf("operandos[0]=%d\n", operandos[0]);
   // printf("operandos[1]=%d\n", operandos[1]);
 
-  char **palabras = dc_split("123 9 + sqrt     log * ^ ( )");
-  analizar_tokens(palabras);
-  free_strv(palabras);
+  // char **palabras = dc_split("123 9 + sqrt     log * ^ ( )");
+  // analizar_tokens(palabras);
+  // free_strv(palabras);
   fclose(fh);
   return 0;
 }
