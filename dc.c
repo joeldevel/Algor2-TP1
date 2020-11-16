@@ -40,7 +40,7 @@ void analizar_tokens(char*tokens[]) {
 }
 // recibe un array de string con cada operando de la operacion
 void procesar_linea(char*tokens[]) {
-  printf("entrando a procesar_linea\n" );
+  // printf("entrando a procesar_linea\n" );
   int i = 0;
   pilanum_t *pila = pilanum_crear();
   while (tokens[i]!=NULL) {
@@ -50,141 +50,158 @@ void procesar_linea(char*tokens[]) {
        // printf("se ha parseado con exito!\n");
        switch (token_devuelto.type) {
            case TOK_NUM:
-               printf("Poner en la pila %d\n",token_devuelto.value );
+               // printf("Poner en la pila %d\n",token_devuelto.value );
                // printf("sumandole 1 %d\n",token_devuelto.value+1 );
-               if(pila_esta_vacia(pila)) printf("La pila esta vacia\n");
-               if (token_devuelto.value <0)
-                  printf("el numero es negativo\n");
+               // if(pila_esta_vacia(pila))
+                // printf("La pila esta vacia\n");
+               // if (token_devuelto.value <0)
+                  // printf("el numero es negativo\n");
                apilar_num(pila, token_devuelto.value);
                // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
            break;
            case TOK_OPER:
-               printf("es un operador " );
+               // printf("es un operador " );
                // printf("token_devuelto.oper=%d\n",token_devuelto.oper );
                switch (token_devuelto.value) {
-                   case OP_ADD:
-                      printf("Sumando +\n");
+                   case OP_ADD:;
+                      // printf("Sumando +\n");
                       calc_num b = 0;
                       if(desapilar_num(pila, &b)){
-                        printf("Desapilando\n");
-                      } else {printf("no se desapila!!!\n");}
+                        printf("");
+                      } else {
+                        // printf("no se desapila!!!\n");
+                        printf("ERROR al desapilar suma\n");
+                        break;
+                      }
 
                       calc_num a = 0;
-                      if(desapilar_num(pila, &a)) printf("Desapilando\n");
+                      if(desapilar_num(pila, &a)) {
+                        printf("");
+                      } else {
+                        printf("ERROR al desapilar suma\n");
+                        break;
+                      }
                       // printf("b=%p\n",b );
                       // printf("b=%lu\n", b);
                       apilar_num(pila, (long int)a+(long int)b);
                       // printf("Se apila =%d\n", (long int)a+(long int)b);
-                      printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                      // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
 
                       break;
                    case OP_SUB:
-                       printf("restando -\n");
+                       // printf("restando -\n");
                        b = 0;
                        if(desapilar_num(pila, &b)){
-                         printf("Desapilando\n");
+                         // printf("Desapilando\n");
                        } else {printf("no se desapila!!!\n");}
 
                        a = 0;
-                       if(desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if(desapilar_num(pila, &a))
+                       // printf("Desapilando\n");
                        apilar_num(pila, (long int)a-(long int)b);
-                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
                        break;
                    case OP_MUL:
-                       printf("Multiplicando\n");
+                       // printf("Multiplicando\n");
                        b = 0;
                        if(desapilar_num(pila, &b)){
-                         printf("Desapilando\n");
+                         // printf("Desapilando\n");
                        } else {printf("no se desapila!!!\n");}
 
                        a = 0;
-                       if(desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if(desapilar_num(pila, &a))
+                       // printf("Desapilando\n");
                        apilar_num(pila, (long int)a*(long int)b);
-                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
                        break;
                    case OP_DIV:
-                       printf("dividiendo\n");
+                       // printf("dividiendo\n");
                        b = 0;
                        if(desapilar_num(pila, &b)){
-                         printf("Desapilando\n");
+                         // printf("Desapilando\n");
                        } else {printf("no se desapila!!!\n");}
 
                        a = 0;
-                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (desapilar_num(pila, &a))
+                       // printf("Desapilando\n");
                        if (b==0) {
                           printf("ERROR división por cero!!!\n");
                           break;
                         }
                        apilar_num(pila, (long int)a/(long int)b);
-                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
                        break;
                       // printf("Division por cero /\n");
                       // break;
                    case OP_POW:
-                       printf("potencia\n");
+                       // printf("potencia\n");
                        b = 0;
                        if(desapilar_num(pila, &b)){
-                         printf("Desapilando\n");
+                         // printf("Desapilando\n");
                        } else {printf("no se desapila!!!\n");}
 
                        a = 0;
-                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (desapilar_num(pila, &a))
+                        // printf("Desapilando\n");
                        if (b<0) {
                           printf("ERROR potencia negativa!!!\n");
                           break;
                         }
                        apilar_num(pila, (long int)pow(a,b));
-                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
                        break;
                    case OP_LOG:
                        printf("Longarismo\n");
                        // base
                        b = 0;
                        if(desapilar_num(pila, &b)){
-                         printf("Desapilando\n");
+                         // printf("Desapilando\n");
                        } else {printf("no se desapila!!!\n");}
                        // numero a aplicar
                        a = 0;
-                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (desapilar_num(pila, &a))
+                        // printf("Desapilando\n");
                        if (b<2) {
                           printf("ERROR base menor a 2 !!!\n");
                           break;
                         }
                        apilar_num(pila, (long int)(log(a)/log(b)));
-                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
                        break;
 
                    case OP_RAIZ:
-                       printf("raiz cuadrada\n");
+                       // printf("raiz cuadrada\n");
                        // necesito 1 solo operando
                        a = 0;
-                       if (desapilar_num(pila, &a)) printf("Desapilando\n");
+                       if (desapilar_num(pila, &a))
+                        // printf("Desapilando\n");
                        if (a<0) {
                           printf("ERROR raiz negativa!!!\n");
                           break;
                         }
                        apilar_num(pila, (long int)sqrt(a));
-                       printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
+                       // printf("ver tope pila =%lu\n", *(size_t*)pila_ver_tope(pila));
                        break;
                    case OP_TERN:
-                   printf("op ternario\n");
+                   // printf("op ternario\n");
                       // op3
                       a = 0;
                       if(desapilar_num(pila, &a)){
-                        printf("Desapilando\n");
+                        // printf("Desapilando\n");
                       } else {printf("no se desapila!!!\n");}
                       // op2
                       b = 0;
-                      if (desapilar_num(pila, &b)) printf("Desapilando\n");
-
+                      if (desapilar_num(pila, &b)) {
+                        // printf("Desapilando\n");
+                        }
                       calc_num c = 0;
                       if (!desapilar_num(pila, &c)) {
                          printf("ERROR falta un operando !!!\n");
                          break;
                        }
-                      printf("a=%lu, b=%ld, c=%lu\n",a,b,c );
+                      // printf("a=%lu, b=%ld, c=%lu\n",a,b,c );
                       apilar_num(pila, (long int)(c?b:a));
-                      printf("ver tope pila =%ld\n", *(size_t*)pila_ver_tope(pila));
+                      // printf("ver tope pila =%ld\n", *(size_t*)pila_ver_tope(pila));
                       break;
 
                     // printf("recibe tres operandos?\n"); break;
@@ -196,10 +213,17 @@ void procesar_linea(char*tokens[]) {
      }
      i++;
   }
+  if (!pila_esta_vacia(pila)) {
+    printf("%ld\n", *(size_t*)pila_ver_tope(pila));
+    // printf("ERROR pila vacia\n");
+  }
+  // else {
+  // }
+
   pilanum_destruir(pila);
 }
 int main(int argc, char *argv[]) {
-  printf("dc compila!\n");
+  // printf("dc compila!\n");
   // pilanum_t *pila = pilanum_crear();
   // apilar_num(pila,3456);
   // pilanum_destruir(pila);
