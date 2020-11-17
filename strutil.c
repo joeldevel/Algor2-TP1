@@ -79,9 +79,15 @@ char ** split(const char *str, char sep) {
 // char *join(char **strv, char sep);
 char *join(char **strv, char sep) {
   size_t i = 0;
+  if (strv[i]==NULL) {
+    char *palabra = malloc(sizeof(char)*2);
+    palabra = "";
+    return palabra;
+    // return NULL;
+  }
   size_t cantidad_letras = 0;
   while (strv[i]!=NULL) {
-     // printf("palabras[%d] = %s\n", i, strv[i]);
+     printf("palabras[%ld] = %s\n", i, strv[i]);
      cantidad_letras+=strlen(strv[i])+1;
      i++;
   }
@@ -110,10 +116,19 @@ char *join(char **strv, char sep) {
      // desplazamiento++;
      // memcpy(palabra+desplazamiento+1, &sep, 1);
      // printf("desplazamiento=%d\n", desplazamiento);
-     // printf("sep=%c\n", sep);
+     printf("sep=%c\n", sep);
      // palabra = sep;
      // strcpy(palabra[desplazamiento],'#');
-     palabra[desplazamiento] = sep;
+     if (sep!=0) {
+       printf("sep no es 0\n");
+       palabra[desplazamiento] = sep;
+     } else {
+       // palabra[desplazamiento]=' ';
+       // desplazamiento++;
+       // i++;
+       // continue;
+       // printf("sep es 0\n");
+     }
      // printf("strlen(strv[i])=%d, \n", strlen(strv[i]));
      // printf("palabra[1]=%p, \n", palabra[1]);
      // printf("palabra=%p, palabra[desplazamiento]=%p\n", palabra,&palabra[desplazamiento]);

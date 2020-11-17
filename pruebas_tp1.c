@@ -159,7 +159,75 @@ static void prueba_split_sep_fin_linea(void) {
     free_strv(array_strings);
 }
 // join
-static void
+static void pruebas_join(void) {
+    printf("INICIO DE PRUEBAS JOIN\n");
+    char *array_strings1[] = {"abc", "def", "gh",NULL};
+    char *array_strings2[] = {"hola", "peperino",NULL};
+    char *str1 = "abc,def,gh";
+    char *str2 = "hola-peperino";
+    char sep1 = ',';
+    char sep2 = '-';
+    int str_len1 = 10;
+    int str_len2 = 13;
+    bool ok = true;
+    char *string_joined = join(array_strings1, sep1);
+    ok &= strcmp(string_joined,str1) == 0;
+    print_test("String1 joined ",ok);
+    ok &= strlen(string_joined)==str_len1;
+    print_test("longitud string1 ",ok );
+    free(string_joined);
+
+    string_joined = join(array_strings2, sep2);
+    ok &= strcmp(string_joined,str2) == 0;
+    print_test("String2 joined ",ok);
+    ok &= strlen(string_joined)==str_len2;
+    print_test("longitud string2 ",ok );
+    free(string_joined);
+}
+static void pruebas_join_casos_borde(void) {
+    printf("INICIO DE PRUEBAS JOIN CASOS BORDE\n");
+    char *array_string_vacio[] = {"",NULL};
+    char *array_string_un_elemento[] = {"hola",NULL};
+    // char *array_string_dos_strings_vacios[] = {"","",NULL};
+    // char *array_vacio[] = {NULL};
+    char *array_separador_0[] = {"abc","def",NULL};
+
+    char *str1 = "hola";
+    char *str2 = "abcdef";
+    // char *str3 = ",";
+    char sep1 = ',';
+    char sep2 = '\0';
+    // int str_len1 = 10;
+    // int str_len2 = 13;
+    bool ok = true;
+
+    char *string_joined = join(array_string_vacio, sep1);
+    ok &= strlen(string_joined) == 0;
+    print_test("array de un string vacio ",ok);
+    free(string_joined);
+
+    string_joined = join(array_string_un_elemento, sep1);
+    ok &= strcmp(str1,string_joined) == 0;
+    print_test("array de un string con un elemento ",ok);
+    free(string_joined);
+
+    // string_joined = join(array_string_dos_strings_vacios, sep1);
+    // ok &= strcmp(str3,string_joined) == 0;
+    // print_test("array de dos strings vacios ",ok);
+    // free(string_joined);
+
+    // string_joined = join(array_vacio, sep1);
+    // ok &= strlen(string_joined) == 0;
+    // print_test("array string vacio ",ok);
+    // free(string_joined);
+
+    string_joined = join(array_separador_0, sep2);
+    printf("string_joined=%s\n",string_joined);
+    ok &= strcmp(str2,string_joined) == 0;
+    print_test("array separdor fin linea ",ok);
+    free(string_joined);
+
+}
 void pruebas_lista_estudiante() {
     prueba_ejemplo();
     prueba_substring_vacio();
@@ -171,6 +239,9 @@ void pruebas_lista_estudiante() {
     prueba_split_strings_vacios();
     prueba_split_sep_fin_linea();
     prueba_split_casos_borde();
+    //join
+    pruebas_join();
+    pruebas_join_casos_borde();
 }
 
 
