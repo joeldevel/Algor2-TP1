@@ -16,15 +16,15 @@ char *substr(const char *str, size_t n) {
     return nueva_cadena;                               // O(1)
 }
 // char **split(const char *str, char sep) {
-char ** split_(const char *str, char sep) {
-    int string_ini = 0;
-    int cantidad_strings = 0;
-    int pos = 0;
-    int contador_palabras = 0;
+char ** split(const char *str, char sep) {
+    size_t string_ini = 0;
+    size_t cantidad_strings = 0;
+    size_t pos = 0;
+    size_t contador_palabras = 0;
     // while (str[pos]!='\0') {
     //     if (str[pos]==sep) {
     //         cantidad_strings++;
-    //         // printf("%c en pos %d\n", str[pos], pos);
+            // printf("%c en pos %d\n", str[pos], pos);
     //     } else {
     //
     //     }
@@ -45,7 +45,7 @@ char ** split_(const char *str, char sep) {
     pos = 0;
     while(str[pos]!='\0') {
       if (str[pos]==sep) {
-        printf("inicio=%d, fin=%d\n",string_ini, pos);
+        // printf("inicio=%d, fin=%d\n",string_ini, pos);
         char *palabra = malloc(sizeof(char)*(pos-string_ini+1));
         memcpy(palabra, str+string_ini, pos-string_ini);
         palabra[pos-string_ini] = '\0';
@@ -69,48 +69,48 @@ char ** split_(const char *str, char sep) {
     // palabra[pos] = '\0';
     // printf("nueva palabra=%s\n",palabra);
     // free(palabra);
-    printf("cantidad de nuevos strings = %d\n", cantidad_strings);
-    printf("tam palabras=%d\n", sizeof(palabras));
-    printf("tam char*=%d\n", sizeof(char*));
-    printf("strlen(str)=%d\n", strlen(str));
+    // printf("cantidad de nuevos strings = %d\n", cantidad_strings);
+    // printf("tam palabras=%d\n", sizeof(palabras));
+    // printf("tam char*=%d\n", sizeof(char*));
+    // printf("strlen(str)=%d\n", strlen(str));
     // printf("tam char=%d\n", sizeof(char));
     return palabras;
 }
 // char *join(char **strv, char sep);
-char *join_(char **strv, char sep) {
-  int i = 0;
-  int cantidad_letras = 0;
+char *join(char **strv, char sep) {
+  size_t i = 0;
+  size_t cantidad_letras = 0;
   while (strv[i]!=NULL) {
-     printf("palabras[%d] = %s\n", i, strv[i]);
+     // printf("palabras[%d] = %s\n", i, strv[i]);
      cantidad_letras+=strlen(strv[i])+1;
      i++;
   }
-  printf("cantidad de letras = %d\n", cantidad_letras );
+  // printf("cantidad de letras = %d\n", cantidad_letras );
   char *palabra = malloc(sizeof(char)*(cantidad_letras));
   i=0;
-  int desplazamiento = 0;
+  size_t desplazamiento = 0;
   while (strv[i]!=NULL) {
      // printf("palabras[%d] = %s\n", i,strv[i]);
      if ( strlen(strv[i]) == 0) {
-       printf("antes del continue\n");
+       // printf("antes del continue\n");
        i++;
        continue;
      }
 
      if ( desplazamiento == 0 ){
-       printf("strlen(strv[%d])=%d, \n",i, strlen(strv[i]));
+       // printf("strlen(strv[%d])=%d, \n",i, strlen(strv[i]));
        memcpy(palabra+desplazamiento, strv[i], strlen(strv[i]));
        desplazamiento += strlen(strv[i]);
      }else {
        desplazamiento++;
-       printf("strlen(strv[%d])=%d, \n",i, strlen(strv[i]));
+       // printf("strlen(strv[%d])=%d, \n",i, strlen(strv[i]));
        memcpy(palabra+desplazamiento, strv[i], strlen(strv[i]));
        desplazamiento += strlen(strv[i]);
      }
      // desplazamiento++;
      // memcpy(palabra+desplazamiento+1, &sep, 1);
-     printf("desplazamiento=%d\n", desplazamiento);
-     printf("sep=%c\n", sep);
+     // printf("desplazamiento=%d\n", desplazamiento);
+     // printf("sep=%c\n", sep);
      // palabra = sep;
      // strcpy(palabra[desplazamiento],'#');
      palabra[desplazamiento] = sep;
@@ -128,7 +128,7 @@ char *join_(char **strv, char sep) {
   // pedir memoria
 }
 void free_strv(char *strv[]) {
-    int i = 0;
+    size_t i = 0;
     while (strv[i]!=NULL) {
         free(strv[i]);
         i++;
@@ -136,7 +136,7 @@ void free_strv(char *strv[]) {
     free(strv);
 }
 // int main(int argc, char* argv[]) {
-//     printf("compila\n");
+    // printf("compila\n");
 //     char ** palabras = split_("pirulo, pirulas, chingolo, monchito", ',');
 //     // char ** palabras = split_("abc,def,ghi,jk", ',');
 //     // Casos borde propuestos
@@ -151,20 +151,20 @@ void free_strv(char *strv[]) {
 //     // split_("", ',');
 //     // char * palabra_original = "potirolis";
 //     // char * palabra_copiada = strdup(palabra_original);
-//     // printf("palabra original= %p, palabra_copiada=%p\n", palabra_original, palabra_copiada);
-//     // printf("palabra_original=%s, palabra_copiada=%s\n", palabra_original, palabra_copiada);
+    // printf("palabra original= %p, palabra_copiada=%p\n", palabra_original, palabra_copiada);
+    // printf("palabra_original=%s, palabra_copiada=%s\n", palabra_original, palabra_copiada);
 //     // free(palabra_copiada);
 //     int i = 0;
 //     // while (palabras[i]!=NULL) {
-//     //    printf("palabras[%d] = %s\n", i,palabras[i]);
+    //    printf("palabras[%d] = %s\n", i,palabras[i]);
 //     //    i++;
 //     // }
 //     // i = 0;
 //     char *p = join_(palabras, ',');
 //     // p[0]='X';
-//     printf("la palabra es =%s\n",p );
+    // printf("la palabra es =%s\n",p );
 //     // while (palabras[i]!=NULL) {
-//     //    // printf("palabras[i] = %s\n", palabras[i]);
+    //    // printf("palabras[i] = %s\n", palabras[i]);
 //     //     free(palabras[i]);
 //     //    i++;
 //     // }
@@ -177,21 +177,21 @@ void free_strv(char *strv[]) {
 // }
 // int main(int argc, char *argv[]) {
 //
-//   printf("compila!!!\n");
+  // printf("compila!!!\n");
 //   char * palabra = "Hola mundo";
-//   printf("palabra es = %s\n", palabra);
+  // printf("palabra es = %s\n", palabra);
 //   char * sub_palabra = substr(palabra, 6);
-//   printf("la sub palabra es %s\n", sub_palabra);
+  // printf("la sub palabra es %s\n", sub_palabra);
 //   free(sub_palabra);
 //
 //   const char* ejemplo= "Ejemplo";
 //   sub_palabra = substr(ejemplo+4, 2);
-//   printf("la sub palabra es %s\n", sub_palabra);
+  // printf("la sub palabra es %s\n", sub_palabra);
 //   free(sub_palabra);
 //
 //   char * palabra2 = "Algoritmos";
 //   sub_palabra = substr(palabra2, 30);
-//   printf("la sub palabra es %s\n", sub_palabra);
+  // printf("la sub palabra es %s\n", sub_palabra);
 //   free(sub_palabra);
 //   return 0;
 // }

@@ -1,8 +1,8 @@
+#include <string.h>
 #ifndef CALC_HELPER
 #define CALC_HELPER
 
 #include "pila.h"
-
 #include <stdbool.h>
 
 // Todas estás funciones están implemnetadas en calc_helper.c, y se pueden usar
@@ -187,6 +187,6 @@ void apilar_num(pilanum_t *pila, calc_num num);
  */
 bool desapilar_num(pilanum_t *pila, calc_num *num);
 
-static bool parse_num(const char *tok, calc_num *dest);
+// static bool parse_num(const char *tok, calc_num *dest);
 
 #endif

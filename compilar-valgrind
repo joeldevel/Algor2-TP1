@@ -1,3 +1,9 @@
  gcc -g -std=c99 -Wall -Wconversion -Wno-sign-conversion -Werror -o pruebas *.c
 
  valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./pruebas
+
+compilar:
+# strdup no es estandar c99
+  dc: gcc -g -std=gnu99 -Wall -Wconversion -Wno-sign-conversion -Werror -o dc dc.c calc_helper.c pila.c strutil.c -lm
+  strutil: en pruebas_strutil
+    gcc -g -std=c99 -Wall -Wconversion -Wno-sign-conversion -Werror -o pruebas_strutil pruebas_tp1.c  strutil.c testing.c -lm

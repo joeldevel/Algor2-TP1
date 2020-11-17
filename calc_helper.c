@@ -13,7 +13,7 @@
 //
 // Prototipos de funciones internas a calc_helper.c
 //
-// static bool parse_num(const char *tok, calc_num *dest);
+static bool parse_num(const char *tok, calc_num *dest);
 
 
 //
