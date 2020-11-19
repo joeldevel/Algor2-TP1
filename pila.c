@@ -13,10 +13,12 @@ struct pila {
     size_t capacidad;  // Capacidad del arreglo 'datos'.
 };
 // función auxiliar
-void * pila_redimensionar(pila_t *pila, bool hacia_arriba) {
-  if (hacia_arriba)
-      return realloc(pila->datos, pila->capacidad *FACTOR_INC_PILA * sizeof(void*));
-  return realloc(pila->datos, (pila->capacidad / FACTOR_DEC_PILA) * sizeof(void*));
+void *pila_redimensionar(pila_t *pila, size_t nueva_capacidad) {
+    void *datos_redimensionados = realloc(pila->datos, nueva_capacidad * sizeof(void*));
+    if (!datos_redimensionados) return NULL;
+    pila->capacidad = nueva_capacidad;
+    pila->datos = datos_redimensionados;
+    return pila;
 }
 /* *****************************************************************
  *                    PRIMITIVAS DE LA PILA
@@ -24,75 +26,52 @@ void * pila_redimensionar(pila_t *pila, bool hacia_arriba) {
 
 // ..
 pila_t *pila_crear(void) {
-    // crear un puntero struct en heap
-    pila_t *pila = malloc( sizeof(pila_t) );
-    // si no lo pudo crear retornar null
+    pila_t *pila = malloc(sizeof(pila_t));
     if (!pila) return NULL;
-    // si todo ok sigo
-    // crear un puntero generico en heap de size puntero generico
-    // * minimo size de la pila
-    void *datos = malloc( sizeof(void*) * MIN_PILA);
-    // si no se puede retornar null
-    if( !datos) {
-      return NULL;
-    }
+    void *datos = malloc(sizeof(void*) * MIN_PILA);
     pila->datos = datos;
     pila->cantidad = 0;
     pila->capacidad = MIN_PILA;
-
-    // todo ok, retorno la pila, que vive el el heap
+    if (!datos) {
+        free(pila);
+        return NULL;
+    }
     return pila;
 }
 
 void pila_destruir(pila_t *pila) {
-
     free(pila->datos);
-
     free(pila);
 }
 
 bool pila_esta_vacia(const pila_t *pila) {
-
     return pila->cantidad == 0;
 }
 
 bool pila_apilar(pila_t *pila, void *valor) {
-
     if (pila->cantidad == pila->capacidad-1) {
-
-      void *datos_nuevo = pila_redimensionar(pila, true);
-
-      if ( datos_nuevo == NULL) {
-          return false;
-      }
-      pila->datos = datos_nuevo;
-
-      pila->capacidad = pila->capacidad * FACTOR_INC_PILA;
+        void *pila_redimensionada = pila_redimensionar(pila,pila->capacidad*FACTOR_INC_PILA);
+        if (pila_redimensionada == NULL) {
+             return false;
+         }
     }
     pila->datos[pila->cantidad] = valor;
-
     pila->cantidad++;
-
     return true;
 }
 
 void *pila_ver_tope(const pila_t *pila) {
-
     if (pila_esta_vacia(pila)) return NULL;
-    if (pila->datos[pila->cantidad-1] == NULL) return NULL;
-
     return pila->datos[pila->cantidad-1];
 }
 
 void *pila_desapilar(pila_t *pila) {
-
     if (pila->cantidad == 0) return NULL;
     if ((pila->capacidad > MIN_PILA*4) && (pila->cantidad <= pila->capacidad/4)) {
-
-      void *datos_nuevo = pila_redimensionar(pila, false);
-      pila->datos = datos_nuevo;
-      pila->capacidad = pila->capacidad/FACTOR_DEC_PILA;
+      void *pila_redimensionada = pila_redimensionar(pila,pila->capacidad/FACTOR_DEC_PILA);
+      if (pila_redimensionada == NULL) {
+           return false;
+       }
     }
-
     return pila->datos[--(pila->cantidad)];
 }

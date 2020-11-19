@@ -7,3 +7,5 @@ compilar:
   dc: gcc -g -std=gnu99 -Wall -Wconversion -Wno-sign-conversion -Werror -o dc dc.c calc_helper.c pila.c strutil.c -lm
   strutil: en pruebas_strutil
     gcc -g -std=c99 -Wall -Wconversion -Wno-sign-conversion -Werror -o pruebas_strutil pruebas_tp1.c  strutil.c testing.c -lm
+  yard:
+    gcc yard.c calc_helper.c strutil.c pila.c cola.c -o yard -lm

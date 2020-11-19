@@ -39,24 +39,38 @@ bool calc_parse(const char *tok, struct calc_token *parsed) {
         char op = tok[0];
         if (op == '+') {
             parsed->oper.op = OP_ADD;
+            parsed->oper.num_operandos = 2;
+            parsed->oper.precedencia =  6;
         }
         else if (op == '-') {
             parsed->oper.op = OP_SUB;
+            parsed->oper.num_operandos = 2;
+            parsed->oper.precedencia =  6;
         }
         else if (op == '*') {
             parsed->oper.op = OP_MUL;
+            parsed->oper.num_operandos = 2;
+            parsed->oper.precedencia =  8;
         }
         else if (op == '/') {
             parsed->oper.op = OP_DIV;
+            parsed->oper.num_operandos = 2;
+            parsed->oper.precedencia =  8;
         }
         else if (op == '^') {
             parsed->oper.op = OP_POW;
+            parsed->oper.num_operandos = 1;
+            parsed->oper.precedencia =  9;
         }
         else if (op == '?') {
             parsed->oper.op = OP_TERN;
+            parsed->oper.num_operandos = 3;
+            // parsed->oper.precedencia =  ;
         }
         else if (op == '(') {
             parsed->type = TOK_LPAREN;
+            // parsed->oper.num_operandos = 2;
+            parsed->oper.precedencia =  -1;
         }
         else if (op == ')') {
             parsed->type = TOK_RPAREN;
@@ -67,9 +81,13 @@ bool calc_parse(const char *tok, struct calc_token *parsed) {
     }
     else if (strcmp(tok, "log") == 0) {
         parsed->oper.op = OP_LOG;
+        parsed->oper.num_operandos = 2;
+        // parsed->oper.precedencia =  6;
     }
     else if (strcmp(tok, "sqrt") == 0) {
         parsed->oper.op = OP_RAIZ;
+        parsed->oper.num_operandos = 1;
+        // parsed->oper.precedencia =  6;
     }
     else {
         return false;

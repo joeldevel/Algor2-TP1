@@ -85,7 +85,10 @@ enum oper_type {
     OP_TERN,  // operador ternario, ?:
 };
 
-
+enum assoc {
+  ASSOC_LEFT,
+  ASSOC_RIGHT,
+};
 /* El tipo del valor numérico será "long int", que codificamos con un typedef.
  * También usamos un struct para definir los operadores y sus atributos.
  *
@@ -100,16 +103,14 @@ typedef struct calc_oper {  // Para tokens TOK_OPER
     // precisa. Se recomienda modificar calc_helper.c para que proporcione el
     // número de operandos del operador, por ejemplo en un miembro "arity", o
     // "num_operandos":
-    /**
-     * int num_operandos;
-     */
+
+     int num_operandos;
     // Asimismo, la implementación de infix puede generalizarse bastante si el
     // mismo struct del operador incluye también su precedencia y asociatividad,
     // para comparar los atributos del token actual con los del tope de la pila:
-    /**
-     * unsigned precedencia;
-     * enum assoc asociatividad;  // p.ej. ASSOC_LEFT, ASSOC_RIGHT (a definir).
-     */
+
+     enum assoc asociatividad;  // p.ej. ASSOC_LEFT, ASSOC_RIGHT (a definir).
+     int precedencia;
 } calc_operador;
 
 
