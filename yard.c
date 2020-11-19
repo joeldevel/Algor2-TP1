@@ -20,33 +20,55 @@ void analizar_tokens(cola_t* cola, pila_t *pila, char*tokens[]) {
        switch (token_devuelto.type) {
          case TOK_NUM:
          // printf("es un numero %d\n",token_devuelto.value );
-         cola_encolar(cola, (void*)token_devuelto.value);
+         cola_encolar(cola, (char*)token_devuelto.value);
          break;
          case TOK_OPER:;
-            // if (pila_esta_vacia(pila)) {
-            printf("token devuelto.type =%d\n", token_devuelto.type);
-            printf("token devuelto.oper.op =%d\n", token_devuelto.oper.op);
-            printf("token devuelto.oper.precedencia =%d\n", token_devuelto.oper.precedencia);
             struct calc_token * t = malloc(sizeof(struct calc_token));
             t->type = token_devuelto.type;
             t->oper.op = token_devuelto.oper.op;
             t->oper.precedencia = token_devuelto.oper.precedencia;
-            printf("t->type =%d\n", t->type);
-            printf("t->oper.op =%d\n", t->oper.op);
-            printf("t->oper.precedencia =%d\n----\n", t->oper.precedencia);
-            pila_apilar(pila,t);
-            //     // pila_apilar(pila,"+");
-            // }
-            // else {
-            // if( !pila_esta_vacia(pila) ) {
-              // while( (token_devuelto.oper.precedencia<= (*(struct calc_token *)pila_ver_tope(pila)).oper.precedencia))  {
-                 // cola_encolar(cola, pila_desapilar(pila));
+            if (pila_esta_vacia(pila)) {
+              printf("En pila vacia\n");
+              // printf("token devuelto.type =%d\n", token_devuelto.type);
+              // printf("token devuelto.oper.op =%d\n", token_devuelto.oper.op);
+              // printf("token devuelto.oper.precedencia =%d\n", token_devuelto.oper.precedencia);
+              // t->type = token_devuelto.type;
+              // t->oper.op = token_devuelto.oper.op;
+              // t->oper.precedencia = token_devuelto.oper.precedencia;
+              // printf("t->type =%d\n", t->type);
+              // printf("t->oper.op =%d\n", t->oper.op);
+              // printf("t->oper.precedencia =%d\n----\n", t->oper.precedencia);
+              pila_apilar(pila,t);
+              break;
+              //     // pila_apilar(pila,"+");
+            }
+            else {
+              // printf("p->oper.precedencia = %d\n", p->oper.precedencia);
+              // printf("token devuelto.oper.precedencia =%d\n", token_devuelto.oper.precedencia);
+              struct calc_token * p = pila_ver_tope(pila);
+              char* op_in_str = " ";
+              // if (!pila_esta_vacia(pila)) {
+              printf("En pila NO vacia\n");
+                while( !pila_esta_vacia(pila)&& (token_devuelto.oper.precedencia <= p->oper.precedencia))  {
+                  p = pila_desapilar(pila);
+                  // poner el operador de la pila en la salida
+                  switch (p->oper.op) {
+                    case OP_ADD:  op_in_str="+";break;
+                    case OP_SUB:  op_in_str="-";break;
+                    case OP_MUL: op_in_str="*";break;
+                    case OP_DIV: op_in_str="/";break;
+                    case OP_POW: op_in_str="^";break;
+                  }
+                  cola_encolar(cola, op_in_str);
+                  // free(p);
+
+                }
               // }
-            // }
-              // pila_apilar(pila, &(token_devuelto.value));
-            // }
-            // printf("precedencia %d \n",token_devuelto.oper.precedencia);
-            // printf("es un operador " );
+                // cola_encolar(cola, op_in_str);
+                pila_apilar(pila,t);
+                // free(p);
+            } // fin else
+
             break;
          case TOK_LPAREN:
          printf("precedencia %d \n",token_devuelto.oper.precedencia);
@@ -80,8 +102,8 @@ void shunting() {
 }
 int main(int argc, char*argv[]) {
   printf("compila!!!!\n");
-  // char * tokens[]= {"3","6","4","112","+","(","-","*","^","/",NULL};
-  char * tokens[]= {"3","6","4","112","+","-","*","/","^",NULL};
+  char * tokens[]= {"3","+","4","*","2",NULL};
+  // char * tokens[]= {"3","6","4","112","+","/","-","*","^",NULL};
    cola_t *cola = cola_crear();
    pila_t *pila = pila_crear();
 
@@ -103,13 +125,24 @@ int main(int argc, char*argv[]) {
   //   i++;
   // }
   // printf("\n");
-  if (!cola_esta_vacia(cola))
-    printf("NO esta vacia\n");
+  // if (!cola_esta_vacia(cola))
+    // printf("NO esta vacia\n");
+    int i = 0;
   while(!cola_esta_vacia(cola)) {
+    if ( i == 4) break;
     // printf("%d ", *(int*)cola_ver_primero(cola));
     printf("%d ", (int*)cola_desencolar(cola)  );
+    i++;
     // (struct calc_token*)
   }
+  while(!cola_esta_vacia(cola)) {
+    // if ( i == 4) break;
+    // printf("%d ", *(int*)cola_ver_primero(cola));
+    printf("%s ", (char*)cola_desencolar(cola)  );
+    // i++;
+    // (struct calc_token*)
+  }
+
   // printf("\n");
   // char * operador = " ";
   // if ( pila_desapilar(pila) == OP_ADD) {
@@ -120,8 +153,6 @@ int main(int argc, char*argv[]) {
   // printf("el calc_token esta es =%p\n", p);
   // printf("el calc_token->type  es =%d\n", p->type);
   while(!pila_esta_vacia(pila)) {
-    // printf("hay algo\n ");
-    // free(pila_desapilar(pila));
     p = pila_desapilar(pila);
     switch (p->oper.op) {
       case OP_ADD: printf("+ ");break;
