@@ -66,43 +66,58 @@ void analizar_tokens(cola_t* cola, pila_t *pila, char*tokens[]) {
               // }
                 // cola_encolar(cola, op_in_str);
                 pila_apilar(pila,t);
-                // free(p);
             } // fin else
 
             break;
          case TOK_LPAREN:
-         printf("precedencia %d \n",token_devuelto.oper.precedencia);
-
-            // pila[tope_pila] = '(';
-            // pila_apilar(pila, &(token_devuelto.type));
-            // printf("es parentesis izquierdo (\n" );
+           printf("precedencia %d \n",token_devuelto.oper.precedencia);
+           // struct calc_token * t = malloc(sizeof(struct calc_token));
+           t->type = token_devuelto.type;
+           t->oper.op = token_devuelto.oper.op;
+           t->oper.precedencia = token_devuelto.oper.precedencia;
+           pila_apilar(pila,t);
             break;
-         case TOK_RPAREN:
-         // if (pila_esta_vacia(pila)) printf("ERROR BALANCEO rparen\n");
-         //    while(((*(struct calc_token *)pila_ver_tope(pila)).type!=TOK_LPAREN) &&!pila_esta_vacia(pila)) {
-         //      cola_encolar(cola, pila_desapilar(pila));
-         //    }
-         //    if (!pila_esta_vacia(pila))
-         //      pila_desapilar(pila); // y desechar el token;
-         //    printf("es parentesis derecho )\n" );
-         break;
+         case TOK_RPAREN:;
+             struct calc_token * p = malloc(sizeof(struct calc_token));
+             // p = pila_ver_tope(pila);
+             p = pila_desapilar(pila);
+
+             char* op_in_str = " ";
+             while (p->type != TOK_LPAREN && !pila_esta_vacia(pila)) {
+               // pop el top y ponerlo en salida
+               switch (p->oper.op) {
+                 case OP_ADD:  op_in_str="+";break;
+                 case OP_SUB:  op_in_str="-";break;
+                 case OP_MUL: op_in_str="*";break;
+                 case OP_DIV: op_in_str="/";break;
+                 case OP_POW: op_in_str="^";break;
+               }
+               // poner el operador de la pila en la salida
+               cola_encolar(cola, op_in_str);
+               if (pila_esta_vacia(pila)){
+                 printf("@ERROR BALANCEO rparen\n");
+                 free(t);
+                 free(p);
+                 break;
+               }
+               p = pila_desapilar(pila);
+             }
+             break;
+             default:
+                  printf("Error also salio mal\n");
        }
      }
      i++;
   }
-  // while (!pila_esta_vacia(pila)) {
-  //   if ((*(struct calc_token *)pila_ver_tope(pila)).type==TOK_RPAREN) printf("ERROR BALANCEO fin tokens\n");
-  //   cola_encolar(cola, pila_desapilar(pila));
-  // }
-  // printf("**************SALIDA**********\n");
-
 }
 void shunting() {
 
 }
 int main(int argc, char*argv[]) {
   printf("compila!!!!\n");
-  char * tokens[]= {"3","+","4","*","2",NULL};
+  // 5 + 4 ^ 3 ^ 2
+  char * tokens[]= {"8","/","2","+","1",NULL};
+  // char * tokens[]= {"3","+","(","4","*","2",")",NULL};
   // char * tokens[]= {"3","6","4","112","+","/","-","*","^",NULL};
    cola_t *cola = cola_crear();
    pila_t *pila = pila_crear();
@@ -129,19 +144,15 @@ int main(int argc, char*argv[]) {
     // printf("NO esta vacia\n");
     int i = 0;
   while(!cola_esta_vacia(cola)) {
-    if ( i == 4) break;
+    // if ( i == 5) break;
     // printf("%d ", *(int*)cola_ver_primero(cola));
     printf("%d ", (int*)cola_desencolar(cola)  );
-    i++;
-    // (struct calc_token*)
-  }
-  while(!cola_esta_vacia(cola)) {
-    // if ( i == 4) break;
-    // printf("%d ", *(int*)cola_ver_primero(cola));
-    printf("%s ", (char*)cola_desencolar(cola)  );
     // i++;
     // (struct calc_token*)
   }
+  // while(!cola_esta_vacia(cola)) {
+  //   printf("%s ", (char*)cola_desencolar(cola)  );
+  // }
 
   // printf("\n");
   // char * operador = " ";
